@@ -1,0 +1,16 @@
+{
+  "name": "tellstickvirtualization",
+  "version": "0.0.1",
+  "description": "Virtualization of Tellstick Devices",
+  "main": "tellstickvirtualization.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mikael",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "knex": "^0.8.6",
+    "sqlite3": "^3.1.0"
+  }
+}
