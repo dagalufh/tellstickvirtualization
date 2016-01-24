@@ -19,16 +19,17 @@ http.createServer(function (req, res) {
     //console.log(query.status);
     switch(query.command) {
       case('resetdb'):
+        console.log('Received request to reset the database.');
         reCreateDefaults(req,res,query.devices)
         break;
-      case('device'):
+      case('devices'):
         switch(query.status) {
           case('on'):
             knex('devices').where('id', '=', query.id)
             .update({
               lastsentcommand: query.status
             }).then(function(done) {
-              knex('devices').where('id', query.id).select().then(function (dbresult){res.end('Successfully send command to device ' + dbresult[0].name + '.')})
+              knex('devices').where('id', query.id).select().then(function (dbresult){console.log('Successfully send command ' + query.status + ' to device ' + dbresult[0].name + '.');res.end('Successfully send command ' + query.status + ' to device ' + dbresult[0].name + '.')})
             })
               
             break;
@@ -37,7 +38,7 @@ http.createServer(function (req, res) {
             .update({
               lastsentcommand: query.status
             }).then(function(done) {
-              knex('devices').where('id', query.id).select().then(function (dbresult){res.end('Successfully send command to device ' + dbresult[0].name + '.')})
+              knex('devices').where('id', query.id).select().then(function (dbresult){console.log('Successfully send command ' + query.status + ' to device ' + dbresult[0].name + '.');res.end('Successfully send command ' + query.status + ' to device ' + dbresult[0].name + '.')})
             })
             
             break;
@@ -55,11 +56,13 @@ http.createServer(function (req, res) {
                 }
                 res.write(row + '\n');
               });
+              console.log('Returned a list of devices.');
               res.end();
             });
         
         break;
       case('version'):
+        console.log('Returned the current version.');
         res.end('Version: ' + simulateVersion);
         break;
       default:
@@ -70,6 +73,7 @@ http.createServer(function (req, res) {
     res.end();
   }
 }).listen(8889);
+console.log('Tellstick Virtualization started.');
 
 
 // This function is used to reset the database into a clean state with a set of default devices.
